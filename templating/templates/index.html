@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css')}}">
+    
+    <title>Document</title>
+</head>
+<body>
+    
+    <div class="container">
+        <h1>Password Generator</h1>
+
+        <div class="p-header">
+            <input type="text" name="" id="Password">
+            <button class="copy" id="copy">Copy</button>
+        </div>
+
+        <div class="p-body">
+            <div class="form-control">
+                <label for="p-length">Password length</label>
+                <input type="number" id="p-length" value="12" min="8" max="12">
+            </div>
+
+            <div class="form-control">
+                <label for="p-uppercase">include uppercase</label>
+                <input type="checkbox" id="p-uppercase" checked>
+            </div>
+
+            <div class="form-control">
+                <label for="p-lowercase">include lowercase</label>
+                <input type="checkbox" id="p-lowercase">
+            </div>
+
+            <div class="form-control">
+                <label for="p-number">include numble</label>
+                <input type="checkbox" id="p-number">
+            </div>
+
+            <div class="form-control">
+                <label for="p-symbols">Symbols</label>
+                <input type="checkbox" id="p-symbols">
+            </div>
+            <button id="submit">Generate Password</button>
+        </div>
+    </div>
+
+
+    <script>
+        const empty = ""
+const ucase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+const lcase = "abcdefghijklmnopqrstuvwxyz"
+const number = "0123456789"
+const symbols = "!@#$%^&*()_+"
+
+const pLength = document.getElementById("p-length")
+const uppercase = document.getElementById("p-uppercase")
+const lowercase = document.getElementById("p-lowercase")
+const pnumber = document.getElementById("p-number")
+const psymbol = document.getElementById("p-symbols")
+const password = document.getElementById("Password")
+const submit = document.getElementById("submit")
+
+submit.addEventListener("click", function(){
+    let initialPassword = empty;
+    (uppercase.checked) ? initialPassword += ucase : "";
+    (lowercase.checked) ? initialPassword += lcase : "";
+    (pnumber.checked) ? initialPassword += number : "";
+    (psymbol.checked) ? initialPassword += symbols : "";
+
+    password.value = generatePassword(pLength.value, initialPassword);
+})
+
+function generatePassword(l, initialPassword){
+    let pass = ""
+    for(let i =0; i < l; i++){
+        pass += initialPassword.charAt(Math.floor(Math.random()* initialPassword.length))
+    }
+    return pass
+}
+
+const copy = document.getElementById("copy")
+copy.addEventListener("click", function(){
+    if (password == "") {
+        alert("please generate a password")
+    }else {
+        password.select()
+        document.execCommand("copy")
+        alert("password has been copied to clipboard")
+    }
+})
+    </script>
+</body>
+</html>
